@@ -25,9 +25,17 @@ class AnswerType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
 
-    quiz = graphene.String()
+    all_quizzes = graphene.Field(QuizzesType, id=graphene.Int())
+    all_questions = graphene.Field(QuestionType, id=graphene.Int())
+    all_answers = graphene.List(AnswerType, id=graphene.Int())
 
-    def resolve_quiz(root, info):
-        return f"This is the first question"
+    def resolve_all_quizzes(root, info, id):
+        return Quizzes.objects.get(pk=id)
+
+    def resolve_all_questions(root, info, id):
+        return Question.objects.get(pk=id)
+
+    def resolve_all_answers(root, info, id):
+        return Answer.objects.filter(question=id)
 
 schema = graphene.Schema(query=Query)
