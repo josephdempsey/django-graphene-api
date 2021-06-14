@@ -3,25 +3,30 @@ from graphene_django import DjangoObjectType
 from graphene_django import DjangoListField
 from .models import Quizzes, Category, Question, Answer
 
+
 class CategoryType(DjangoObjectType):
     class Meta:
         model = Category
-        fields = ("id","name")
+        fields = ("id", "name")
+
 
 class QuizzesType(DjangoObjectType):
     class Meta:
         model = Quizzes
-        fields = ("id","title","category","quiz")
+        fields = ("id", "title", "category", "quiz")
+
 
 class QuestionType(DjangoObjectType):
     class Meta:
         model = Question
-        fields = ("title","quiz")
+        fields = ("title", "quiz")
+
 
 class AnswerType(DjangoObjectType):
     class Meta:
         model = Answer
-        fields = ("question","answer_text")
+        fields = ("question", "answer_text")
+
 
 class Query(graphene.ObjectType):
 
@@ -69,6 +74,8 @@ class Query(graphene.ObjectType):
 #         return CategoryMutation(category=category)
 
 # Delete
+
+
 class CategoryMutation(graphene.Mutation):
 
     class Arguments:
@@ -82,8 +89,10 @@ class CategoryMutation(graphene.Mutation):
         category.delete()
         return
 
+
 class Mutation(graphene.ObjectType):
 
     update_category = CategoryMutation.Field()
+
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
